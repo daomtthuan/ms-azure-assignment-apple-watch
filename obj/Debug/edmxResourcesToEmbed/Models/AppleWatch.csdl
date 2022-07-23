@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AppleWatchModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Genuine">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DisplayName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Watches" Relationship="Self.FK_WatchGenuine" FromRole="Genuine" ToRole="Watch" />
+  </EntityType>
+  <EntityType Name="Promotion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DisplayName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="PromotionApplications" Relationship="Self.FK_AppliedPromotion" FromRole="Promotion" ToRole="PromotionApplication" />
+  </EntityType>
+  <EntityType Name="PromotionApplication">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="WatchId" Type="Int32" Nullable="false" />
+    <Property Name="PromotionId" Type="Int32" Nullable="false" />
+    <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ToDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Promotion" Relationship="Self.FK_AppliedPromotion" FromRole="PromotionApplication" ToRole="Promotion" />
+    <NavigationProperty Name="Watch" Relationship="Self.FK_PromotionalWatch" FromRole="PromotionApplication" ToRole="Watch" />
+  </EntityType>
+  <EntityType Name="SaleOff">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="WatchId" Type="Int32" Nullable="false" />
+    <Property Name="SaleOffPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="ToDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Watch" Relationship="Self.FK_SaleOffWatch" FromRole="SaleOff" ToRole="Watch" />
+    <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+  </EntityType>
+  <EntityType Name="Series">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DisplayName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Watches" Relationship="Self.FK_WatchSeries" FromRole="Series" ToRole="Watch" />
+  </EntityType>
+  <EntityType Name="Strap">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DisplayName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Watches" Relationship="Self.FK_WatchStrap" FromRole="Strap" ToRole="Watch" />
+  </EntityType>
+  <EntityType Name="Watch">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SeriesId" Type="Int32" Nullable="false" />
+    <Property Name="StrapId" Type="Int32" Nullable="false" />
+    <Property Name="GenuineId" Type="Int32" />
+    <Property Name="IsAuthorisedReseller" Type="Boolean" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+    <NavigationProperty Name="Genuine" Relationship="Self.FK_WatchGenuine" FromRole="Watch" ToRole="Genuine" />
+    <NavigationProperty Name="PromotionApplications" Relationship="Self.FK_PromotionalWatch" FromRole="Watch" ToRole="PromotionApplication" />
+    <NavigationProperty Name="SaleOffs" Relationship="Self.FK_SaleOffWatch" FromRole="Watch" ToRole="SaleOff" />
+    <NavigationProperty Name="Series" Relationship="Self.FK_WatchSeries" FromRole="Watch" ToRole="Series" />
+    <NavigationProperty Name="Strap" Relationship="Self.FK_WatchStrap" FromRole="Watch" ToRole="Strap" />
+  </EntityType>
+  <Association Name="FK_WatchGenuine">
+    <End Role="Genuine" Type="Self.Genuine" Multiplicity="0..1" />
+    <End Role="Watch" Type="Self.Watch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genuine">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Watch">
+        <PropertyRef Name="GenuineId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AppliedPromotion">
+    <End Role="Promotion" Type="Self.Promotion" Multiplicity="1" />
+    <End Role="PromotionApplication" Type="Self.PromotionApplication" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Promotion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PromotionApplication">
+        <PropertyRef Name="PromotionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PromotionalWatch">
+    <End Role="Watch" Type="Self.Watch" Multiplicity="1" />
+    <End Role="PromotionApplication" Type="Self.PromotionApplication" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Watch">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PromotionApplication">
+        <PropertyRef Name="WatchId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SaleOffWatch">
+    <End Role="Watch" Type="Self.Watch" Multiplicity="1" />
+    <End Role="SaleOff" Type="Self.SaleOff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Watch">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SaleOff">
+        <PropertyRef Name="WatchId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WatchSeries">
+    <End Role="Series" Type="Self.Series" Multiplicity="1" />
+    <End Role="Watch" Type="Self.Watch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Series">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Watch">
+        <PropertyRef Name="SeriesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_WatchStrap">
+    <End Role="Strap" Type="Self.Strap" Multiplicity="1" />
+    <End Role="Watch" Type="Self.Watch" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Strap">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Watch">
+        <PropertyRef Name="StrapId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AppleWatchEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Genuines" EntityType="Self.Genuine" />
+    <EntitySet Name="Promotions" EntityType="Self.Promotion" />
+    <EntitySet Name="PromotionApplications" EntityType="Self.PromotionApplication" />
+    <EntitySet Name="SaleOffs" EntityType="Self.SaleOff" />
+    <EntitySet Name="Series" EntityType="Self.Series" />
+    <EntitySet Name="Straps" EntityType="Self.Strap" />
+    <EntitySet Name="Watches" EntityType="Self.Watch" />
+    <AssociationSet Name="FK_WatchGenuine" Association="Self.FK_WatchGenuine">
+      <End Role="Genuine" EntitySet="Genuines" />
+      <End Role="Watch" EntitySet="Watches" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AppliedPromotion" Association="Self.FK_AppliedPromotion">
+      <End Role="Promotion" EntitySet="Promotions" />
+      <End Role="PromotionApplication" EntitySet="PromotionApplications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PromotionalWatch" Association="Self.FK_PromotionalWatch">
+      <End Role="Watch" EntitySet="Watches" />
+      <End Role="PromotionApplication" EntitySet="PromotionApplications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SaleOffWatch" Association="Self.FK_SaleOffWatch">
+      <End Role="Watch" EntitySet="Watches" />
+      <End Role="SaleOff" EntitySet="SaleOffs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WatchSeries" Association="Self.FK_WatchSeries">
+      <End Role="Series" EntitySet="Series" />
+      <End Role="Watch" EntitySet="Watches" />
+    </AssociationSet>
+    <AssociationSet Name="FK_WatchStrap" Association="Self.FK_WatchStrap">
+      <End Role="Strap" EntitySet="Straps" />
+      <End Role="Watch" EntitySet="Watches" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
