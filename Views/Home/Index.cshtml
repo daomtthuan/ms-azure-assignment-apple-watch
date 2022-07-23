@@ -1,0 +1,42 @@
+﻿@using AppleWatch.ViewModels.Home
+
+@model IndexViewModel
+
+<div class="container">
+  <hr />
+  <div class="row g-1">
+    <div class="col-lg-8">
+      <img src="~/Assets/Images/Banners/@Model.BigBanner" class="w-100">
+    </div>
+    <div class="col-lg-4">
+      <div class="row g-1 row-cols-2 row-cols-lg-1">
+        <div class="col">
+          <img src="~/Assets/Images/Banners/@Model.SmallBanner1" class="w-100">
+        </div>
+        <div class="col">
+          <img src="~/Assets/Images/Banners/@Model.SmallBanner2" class="w-100">
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr />
+
+  <h4>Đồng hồ thông minh Apple</h4>
+  <hr />
+
+  <div>
+    @if (Model.WatchAmount == 0) {
+      <p class="text-muted fst-italic">Không có sản phẩm nào.</p>
+    } else {
+      <p class="text-muted fst-italic">Có @Model.WatchAmount sản phẩm.</p>
+      <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xxl-5">
+        @foreach (var watchCard in Model.DisplayWatchCards) {
+          <div class="col">
+            @Components.Watch.Card(watchCard)
+          </div>
+        }
+      </div>
+    }
+  </div>
+  <hr />
+</div>

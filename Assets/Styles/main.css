@@ -1,0 +1,10 @@
+﻿a {
+  text-decoration: none;
+}
+
+.sale-off-price {
+  background-color: var(--bs-orange);
+  position: absolute;
+  bottom: 0px;
+  left: 10px;
+}

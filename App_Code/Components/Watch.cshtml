@@ -1,0 +1,57 @@
+﻿@using AppleWatch.Helpers
+@using AppleWatch.Models
+
+@helper Card(DisplayWatchCard displayWatchCard) {
+  <div class="card shadow bg-light">
+    <div class="card-header border-0 bg-transparent">
+      @if (displayWatchCard.IsAuthorisedReseller) {
+        <img src="~/Assets/Images/AuthorisedReseller.png" height="25" />
+      } else {
+        <div style="height: 25px;"></div>
+      }
+    </div>
+    <div class="position-relative">
+      <img src="~/Assets/Images/Watches/@displayWatchCard.Image" height="150" class="card-img-top" style="object-fit: contain" />
+      @if (displayWatchCard.SaleOffPrice.HasValue && displayWatchCard.SaleOffPrice > 0) {
+        <div class="badge sale-off-price">
+          Giảm @Common.CurrencyFormat(displayWatchCard.SaleOffPrice)
+          <span class="text-decoration-underline">đ</span>
+        </div>
+      }
+    </div>
+    <div class="card-body">
+      <h6 class="card-title text-center">
+        @displayWatchCard.SeriesDisplayName - @displayWatchCard.StrapDisplayName - @displayWatchCard.GenuineDisplayName
+      </h6>
+      <p class="text-center">
+        @if (displayWatchCard.Price == null) {
+          <b class="text-danger">Liên hệ</b>
+        } else {
+          <b class="text-danger">
+            @Common.CurrencyFormat(displayWatchCard.ActualPrice)
+            <span class="text-decoration-underline">đ</span>
+          </b>
+          if (displayWatchCard.SaleOffPrice > 0) {
+            <span class="text-muted text-decoration-line-through">
+              @Common.CurrencyFormat(displayWatchCard.Price)
+              <span class="text-decoration-underline">đ</span>
+            </span>
+          }
+        }
+      </p>
+      <p class="mb-0">
+        @if (displayWatchCard.PromotionsAmount > 0) {
+          <span class="badge bg-warning shadow-sm">KM</span>
+          @Common.TruncateFormat(displayWatchCard.CurrentPromotions[0], 35)
+        }
+      </p>
+      <div style="height: 1rem;">
+        @if (displayWatchCard.PromotionsAmount > 1) {
+          <b class="text-warning fs-6 ">
+            VÀ @(displayWatchCard.PromotionsAmount - 1) KM KHÁC
+          </b>
+        }
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="77966bffe65440838860f754ea4af2b7" Name="Diagram1">
+        <EntityTypeShape EntityType="AppleWatchModel.Genuine" Width="1.5" PointX="3.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AppleWatchModel.Promotion" Width="1.5" PointX="10.125" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AppleWatchModel.PromotionApplication" Width="1.5" PointX="6.375" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AppleWatchModel.SaleOff" Width="1.5" PointX="6.5" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AppleWatchModel.Series" Width="1.5" PointX="0.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AppleWatchModel.Strap" Width="1.5" PointX="0.625" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AppleWatchModel.Watch" Width="1.5" PointX="3.375" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="AppleWatchModel.FK_WatchGenuine" ManuallyRouted="false" />
+        <AssociationConnector Association="AppleWatchModel.FK_AppliedPromotion" ManuallyRouted="false" />
+        <AssociationConnector Association="AppleWatchModel.FK_PromotionalWatch" ManuallyRouted="false" />
+        <AssociationConnector Association="AppleWatchModel.FK_SaleOffWatch" ManuallyRouted="false" />
+        <AssociationConnector Association="AppleWatchModel.FK_WatchSeries" ManuallyRouted="false" />
+        <AssociationConnector Association="AppleWatchModel.FK_WatchStrap" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
